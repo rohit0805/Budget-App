@@ -5,6 +5,15 @@ var BudgetController=(function(){
         this.id=id;
         this.description=description;
         this.value=value;
+        this.percentage=-1;
+    };
+    Expense.prototype.calperc=function(totalIncome){
+        if(totalIncome>0){
+            this.percentage=Math.round((this.value/totalIncome)*100);
+        }
+        else{
+            this.percentage=-1;
+        }
     };
     //create Income object
     var Income=function(id,description,value){
@@ -59,7 +68,7 @@ var BudgetController=(function(){
             data.budget=data.totals.inc-data.totals.exp;
             //calculate the percentage
             if(data.totals.inc>0){
-                data.percentage=parseInt(data.totals.exp*100/data.totals.inc);
+                data.percentage=Math.round((data.totals.exp/data.totals.inc)*100);
             }
             else{
                 data.percentage="---";
@@ -70,8 +79,30 @@ var BudgetController=(function(){
                 budget:data.budget,
                 income:data.totals.inc,
                 expenses:data.totals.exp,
-                percentage:data.percentage+'%'
+                percentage:data.percentage
             }
+        },
+        deleteItem:function(type,id){
+            var ids,index;
+            id=parseInt(id);
+            ids=data.allItems[type].map(function(current){
+                return current.id;
+            });
+            index=ids.indexOf(id);
+            if(index!==-1){
+                data.allItems[type].splice(index,1);
+            }
+        },
+        calculatePercentages:function(){
+            data.allItems.exp.forEach(function(current){
+                current.calperc(data.totals.inc);
+            });
+        },
+        getPercentages:function(){
+            var allPerc=data.allItems.exp.map(function(current){
+                return current.percentage;
+            });
+            return allPerc;
         }
     }
 })();
@@ -88,7 +119,9 @@ var UIController=(function(){
         budget_value:'.budget_value',
         income_value:'.income_value',
         expenses_value:'.expenses_value',
-        expenses_percentage:'.expenses_percentage'
+        expenses_percentage:'.expenses_percentage',
+        container:'#container',
+        small_perc:'.data_expenses_percentage'
     };
 
     return{
@@ -109,7 +142,7 @@ var UIController=(function(){
                 element=DOMstring.input_container;
             }
             else{
-                html='<div class="data" id="exp-%id%"><div class="data_description">%description%</div><div class="data_value">%value%</div><div class="data_percentage">---</div><div class="data_delete"><button class="data_delete_btn"><i class="fas fa-times-circle"></i></button></div></div>'
+                html='<div class="data" id="exp-%id%"><div class="data_description">%description%</div><div class="data_value">%value%</div><div class="data_percentage data_expenses_percentage">---</div><div class="data_delete"><button class="data_delete_btn"><i class="fas fa-times-circle"></i></button></div></div>'
                 element=DOMstring.expenses_container;
             }
             //replacing an html with the obj data
@@ -132,8 +165,25 @@ var UIController=(function(){
             document.querySelector(DOMstring.budget_value).innerHTML=obj.budget;
             document.querySelector(DOMstring.income_value).innerHTML=obj.income;
             document.querySelector(DOMstring.expenses_value).innerHTML=obj.expenses;
-            document.querySelector(DOMstring.expenses_percentage).innerHTML=obj.percentage;
-            
+            if(obj.percentage>=0)
+                document.querySelector(DOMstring.expenses_percentage).innerHTML=obj.percentage+'%';            
+            else{
+                document.querySelector(DOMstring.expenses_percentage).innerHTML='---';
+            }
+        },
+        deleteListItem:function(id){
+            var element=document.querySelector("#"+id);
+            element.parentNode.removeChild(element);
+        },
+        displayPercentage:function(allPerc){
+            var fields=document.querySelectorAll(DOMstring.small_perc);
+            fields=Array.from(fields);
+            fields.forEach(function(current,index){
+                if(allPerc[index]>0)
+                    current.textContent=allPerc[index]+"%";
+                else    
+                    current.textContent="---";
+            });
         }
     }
 })();
@@ -142,6 +192,14 @@ var UIController=(function(){
 //AppController
 var Controller=(function(BudgetCtrl,UICtrl){
 
+    var updatePercentage=function(){
+        //1.Calculate the percentages
+        BudgetCtrl.calculatePercentages();
+        //2.Get the percentages
+        var allPerc=BudgetCtrl.getPercentages();
+        //3.display the percentges
+        UICtrl.displayPercentage(allPerc);
+    };
     var updateBudget=function(){
         //calculate the budget
         BudgetCtrl.calculateBudget();
@@ -165,9 +223,26 @@ var Controller=(function(BudgetCtrl,UICtrl){
             //5.Update the budget
             updateBudget();
             //6.Update the Percentage
-
+            updatePercentage();
         }
     };
+    var ctrlDeleteItem=function(){
+        var splitId,id,type,itemId=event.target.parentNode.parentNode.parentNode.id;
+        if(itemId){
+            splitId=itemId.split('-');
+            type=splitId[0];
+            id=splitId[1];
+
+            //1.delete the item from the budget data-structure
+            BudgetCtrl.deleteItem(type,id);
+            //2.Delete the item from the UI
+            UICtrl.deleteListItem(itemId);
+            //3.Update the Budget and show the budget
+            updateBudget();
+            //4.Update Percentage
+            updatePercentage();
+        }
+    }
 
     var SetupEventListener=function(){
         var dom=UICtrl.getDOM();
@@ -182,6 +257,10 @@ var Controller=(function(BudgetCtrl,UICtrl){
                 //because by default the type 'click' also get executed by enter key
                 event.preventDefault();
             }
+        });
+
+        document.querySelector(dom.container).addEventListener('click',function(event){
+            ctrlDeleteItem();
         });
     };
 
