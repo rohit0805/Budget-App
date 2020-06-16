@@ -121,7 +121,8 @@ var UIController=(function(){
         expenses_value:'.expenses_value',
         expenses_percentage:'.expenses_percentage',
         container:'#container',
-        small_perc:'.data_expenses_percentage'
+        small_perc:'.data_expenses_percentage',
+        month:'.display_month'
     };
     var formatNumber=function(num,type){
         var numSplit,sign;
@@ -208,6 +209,13 @@ var UIController=(function(){
             else{
                 document.querySelector(DOMstring.description).placeholder="Add Expenses description";
             }
+        },
+        displayMonth:function(){
+            var target=document.querySelector(DOMstring.month);
+            var now=new Date();
+            var arr=['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var str="Abailable Budget of "+arr[now.getMonth()]+" "+now.getFullYear();
+            target.textContent=str;
         }
     }
 })();
@@ -293,6 +301,8 @@ var Controller=(function(BudgetCtrl,UICtrl){
 
     return{
         init:function(){
+            //display month 
+            UICtrl.displayMonth();
             //default setup
             UICtrl.displayBudget({budget:"0.00",income:"0.00",expenses:"0.00",percentage:'---'})
             //setting up the event listener

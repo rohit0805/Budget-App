@@ -50,7 +50,8 @@ h2 {
   border-radius: 10px;
   height: 100%;
   width: 100%;
-  max-width: 412px;
+  color: lightgrey;
+  max-width: 420px;
 }
 
 #heading .center_heading .display_month {
