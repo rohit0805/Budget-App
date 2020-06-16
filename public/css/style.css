@@ -52,7 +52,7 @@ h2 {
 }
 
 #heading .center_heading .display .display_budget, #heading .center_heading .display .display_income, #heading .center_heading .display .display_expenses {
-  background-color: rgba(145, 35, 54, 0.8);
+  background-color: rgba(25, 84, 110, 0.8);
   display: flex;
   padding: 0.5rem 1rem;
   flex: none;
@@ -76,7 +76,7 @@ h2 {
 }
 
 #heading .center_heading .display .display_expenses {
-  background-color: rgba(25, 84, 110, 0.8);
+  background-color: rgba(145, 35, 54, 0.8);
 }
 
 #input {
@@ -118,6 +118,7 @@ h2 {
 
 #container .income {
   grid-area: income;
+  margin: 0 1rem;
 }
 
 #container .income .income_title {
@@ -143,11 +144,12 @@ h2 {
 
 #container .expenses {
   grid-area: expenses;
+  margin: 0 1rem;
 }
 
 #container .expenses .expenses_title {
   color: white;
-  background-color: rgba(25, 84, 110, 0.5);
+  background-color: rgba(145, 35, 54, 0.5);
   position: relative;
   margin: 1rem 0;
   padding: 1rem 0;
@@ -205,7 +207,7 @@ h2 {
 .data .data_delete .data_delete_btn {
   border: none;
   outline: none;
-  color: rgba(145, 35, 54, 0.8);
+  color: rgba(25, 84, 110, 0.8);
   cursor: pointer;
   display: none;
   font-size: 1.2rem;

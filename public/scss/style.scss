@@ -93,6 +93,7 @@
     grid-gap:0 1rem;
     .income{
         grid-area:income;
+        margin:0 1rem;
         .income_title{
             color:white;
             background-color:$income-light-color;
@@ -115,6 +116,7 @@
     }
     .expenses{
         grid-area:expenses;
+        margin:0 1rem;
         .expenses_title{
             color:white;
             background-color: $expenses-light-color;
