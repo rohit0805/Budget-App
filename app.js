@@ -184,6 +184,21 @@ var UIController=(function(){
                 else    
                     current.textContent="---";
             });
+        },
+        changedType:function(){
+            var fields=document.querySelectorAll(DOMstring.type+','+DOMstring.description+','+DOMstring.value);
+            fields=Array.from(fields);
+            fields.forEach(function(current,index,array){
+                current.classList.toggle('color_changed');
+            });
+            document.querySelector(DOMstring.button).classList.toggle('color_button');
+        
+            if(document.querySelector(DOMstring.type).value==='inc'){
+                document.querySelector(DOMstring.description).placeholder="Add Income description";
+            }
+            else{
+                document.querySelector(DOMstring.description).placeholder="Add Expenses description";
+            }
         }
     }
 })();
@@ -262,6 +277,9 @@ var Controller=(function(BudgetCtrl,UICtrl){
         document.querySelector(dom.container).addEventListener('click',function(event){
             ctrlDeleteItem();
         });
+
+        //for the input-tags
+        document.querySelector(dom.type).addEventListener('change',UICtrl.changedType);
     };
 
     return{

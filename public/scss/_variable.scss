@@ -33,3 +33,12 @@ h2{
     text-transform: uppercase;
     font-size:1.5rem;
 }
+
+
+.color_changed:focus{
+    border:1px solid $expenses-color !important;
+}
+
+.color_button{
+    color:$expenses-color !important;
+}

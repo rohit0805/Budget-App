@@ -15,6 +15,14 @@ h2 {
   font-size: 1.5rem;
 }
 
+.color_changed:focus {
+  border: 1px solid rgba(145, 35, 54, 0.8) !important;
+}
+
+.color_button {
+  color: rgba(145, 35, 54, 0.8) !important;
+}
+
 #heading {
   background: url("../img/5.jpg") no-repeat center center/cover;
   height: 250px;
