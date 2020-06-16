@@ -125,11 +125,15 @@ var UIController=(function(){
         month:'.display_month'
     };
     var formatNumber=function(num,type){
-        var numSplit,sign;
+        var numSplit,sign,int,decimal;
         num=Math.abs(num);
         num=num.toFixed(2);
+        numSplit=num.split('.');
+        int=numSplit[0];
+        decimal=numSplit[1];
+        
         type==='exp'?sign='-':sign='+';
-        return sign+num;
+        return sign+int+'.'+decimal;
     };
 
     return{

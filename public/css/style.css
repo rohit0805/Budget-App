@@ -51,7 +51,7 @@ h2 {
   height: 100%;
   width: 100%;
   color: lightgrey;
-  max-width: 420px;
+  max-width: 402px;
 }
 
 #heading .center_heading .display_month {
@@ -136,7 +136,7 @@ h2 {
   margin: 1rem 0;
   border-radius: 10px;
   position: relative;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 #container .income .income_title:before {
@@ -161,7 +161,7 @@ h2 {
   background-color: rgba(145, 35, 54, 0.5);
   position: relative;
   margin: 1rem 0;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   border-radius: 10px;
 }
 
