@@ -123,6 +123,13 @@ var UIController=(function(){
         container:'#container',
         small_perc:'.data_expenses_percentage'
     };
+    var formatNumber=function(num,type){
+        var numSplit,sign;
+        num=Math.abs(num);
+        num=num.toFixed(2);
+        type==='exp'?sign='-':sign='+';
+        return sign+num;
+    };
 
     return{
         getDOM:function(){
@@ -148,7 +155,7 @@ var UIController=(function(){
             //replacing an html with the obj data
             newhtml=html.replace('%id%',obj.id);
             newhtml=newhtml.replace('%description%',obj.description);
-            newhtml=newhtml.replace('%value%',obj.value);
+            newhtml=newhtml.replace('%value%',formatNumber(obj.value,type));
 
             //add the newhtml to the index.html
             document.querySelector(element).insertAdjacentHTML('beforeend',newhtml);
@@ -162,9 +169,11 @@ var UIController=(function(){
             fields[0].focus();
         },
         displayBudget:function(obj){
-            document.querySelector(DOMstring.budget_value).innerHTML=obj.budget;
-            document.querySelector(DOMstring.income_value).innerHTML=obj.income;
-            document.querySelector(DOMstring.expenses_value).innerHTML=obj.expenses;
+            var type;
+            obj.budget>=0?type='inc':type='exp';
+            document.querySelector(DOMstring.budget_value).innerHTML=formatNumber(obj.budget,type);
+            document.querySelector(DOMstring.income_value).innerHTML=formatNumber(obj.income,'inc');
+            document.querySelector(DOMstring.expenses_value).innerHTML=formatNumber(obj.expenses,'exp');
             if(obj.percentage>=0)
                 document.querySelector(DOMstring.expenses_percentage).innerHTML=obj.percentage+'%';            
             else{
