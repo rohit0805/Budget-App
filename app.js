@@ -131,9 +131,41 @@ var UIController=(function(){
         numSplit=num.split('.');
         int=numSplit[0];
         decimal=numSplit[1];
-        
+        //
+        var len=int.length,keep="",i,j;
+        if(len>3){
+            if(len%2===0){
+                keep+=int[0];
+                keep+=',';
+                i=1;
+            }
+            else{
+                keep+=int[0];
+                keep+=int[1];
+                keep+=',';
+                i=2;
+            }
+            for(j=i;j<len;j=j+2){
+                if(len-j>3){
+                    keep+=int[j];
+                    keep+=int[j+1];
+                    keep+=',';
+                }
+                else{
+                    break;
+                }
+            }
+            for(i=j;i<len;i++){
+                keep+=int[i];
+            }
+        }
+        else{
+            keep=int;
+        }
+        //
+
         type==='exp'?sign='-':sign='+';
-        return sign+int+'.'+decimal;
+        return sign+keep+'.'+decimal;
     };
 
     return{
