@@ -173,7 +173,7 @@
         .data_delete_btn{
             border:none;
             outline:none;
-            color:$budget-color;
+            color:$cross-color;
             cursor:pointer;
             display:none;
             font-size:1.2rem;
@@ -203,6 +203,12 @@
         .data_description{
             color:$text-color-dark;
             transform: scale(1.3);
+        }
+        .expense_color{
+            color:$expenses-color;
+        }
+        .income_color{
+            color:$income-color;
         }
     }
 }

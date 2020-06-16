@@ -122,7 +122,11 @@ var UIController=(function(){
         expenses_percentage:'.expenses_percentage',
         container:'#container',
         small_perc:'.data_expenses_percentage',
-        month:'.display_month'
+        month:'.display_month',
+        display_income:'.display_income',
+        display_expenses:'.display_expenses',
+        income_title:'.income_title',
+        expenses_title:'.expenses_title'
     };
     var formatNumber=function(num,type){
         var numSplit,sign,int,decimal;
@@ -187,11 +191,11 @@ var UIController=(function(){
         addListItem:function(obj,type){
             var html,newhtml,element;
             if(type==='inc'){
-                html='<div class="data" id="inc-%id%"><div class="data_description">%description%</div><div class="data_value">%value%</div><div class="data_percentage">---</div><div class="data_delete"><button class="data_delete_btn"><i class="fas fa-times-circle"></i></button></div></div>'
+                html='<div class="data" id="inc-%id%"><div class="data_description">%description%</div><div class="data_value income_color">%value%</div><div class="data_percentage income_color">---</div><div class="data_delete"><button class="data_delete_btn"><i class="fas fa-times-circle"></i></button></div></div>'
                 element=DOMstring.input_container;
             }
             else{
-                html='<div class="data" id="exp-%id%"><div class="data_description">%description%</div><div class="data_value">%value%</div><div class="data_percentage data_expenses_percentage">---</div><div class="data_delete"><button class="data_delete_btn"><i class="fas fa-times-circle"></i></button></div></div>'
+                html='<div class="data" id="exp-%id%"><div class="data_description">%description%</div><div class="data_value expense_color">%value%</div><div class="data_percentage data_expenses_percentage expense_color">---</div><div class="data_delete"><button class="data_delete_btn"><i class="fas fa-times-circle"></i></button></div></div>'
                 element=DOMstring.expenses_container;
             }
             //replacing an html with the obj data
@@ -338,6 +342,22 @@ var Controller=(function(BudgetCtrl,UICtrl){
 
         //for the input-tags
         document.querySelector(dom.type).addEventListener('change',UICtrl.changedType);
+
+        //some extra effect for income_title and expenses_title
+        document.querySelector(dom.income_title).addEventListener("mouseover",function(){
+            document.querySelector(dom.display_income).classList.toggle('zoom'); 
+            setTimeout(function(){
+                document.querySelector(dom.display_income).classList.remove('zoom');
+            },400);
+            
+        });
+        
+        document.querySelector(dom.expenses_title).addEventListener("mouseover",function(){
+            document.querySelector(dom.display_expenses).classList.toggle('zoom'); 
+            setTimeout(function(){
+                document.querySelector(dom.display_expenses).classList.remove('zoom');
+            },400);
+        });
     };
 
     return{
