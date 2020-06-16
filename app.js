@@ -131,7 +131,15 @@ var UIController=(function(){
         numSplit=num.split('.');
         int=numSplit[0];
         decimal=numSplit[1];
-        //
+        
+        //changing the number in comma format
+        var keep=commaformat(int);
+
+        type==='exp'?sign='-':sign='+';
+        return sign+keep+'.'+decimal;
+    };
+
+    var commaformat=function(int){
         var len=int.length,keep="",i,j;
         if(len>3){
             if(len%2===0){
@@ -162,11 +170,8 @@ var UIController=(function(){
         else{
             keep=int;
         }
-        //
-
-        type==='exp'?sign='-':sign='+';
-        return sign+keep+'.'+decimal;
-    };
+        return keep;
+    }
 
     return{
         getDOM:function(){
