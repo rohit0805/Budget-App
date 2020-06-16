@@ -214,7 +214,7 @@ var UIController=(function(){
             var target=document.querySelector(DOMstring.month);
             var now=new Date();
             var arr=['January','February','March','April','May','June','July','August','September','October','November','December'];
-            var str="Abailable Budget of "+arr[now.getMonth()]+" "+now.getFullYear();
+            var str="Available Budget of "+arr[now.getMonth()]+" "+now.getFullYear();
             target.textContent=str;
         }
     }
